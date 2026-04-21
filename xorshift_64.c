@@ -1,7 +1,14 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <time.h>
+#include <stdio.h> 
+#include <stdlib.h> // Para função rand()
+#include <stdint.h> // Para uint64_t
+#include <time.h> // Para função clock()
+
+/*
+    Nota do autor: todo o código é escrito em inglês, porém os comentários são em português brasileiro.
+    Portanto, a comunidade internacional pode usufruir do conhecimento computacional,
+    porém somente lusófonos poderão gozar dos comentários feitos com muito amor e carinho pelo autor 
+    Matheus Eduardo Amazonas Costa
+*/
 
 /*
     Tabela de shift triplets da página 347 de Numerical Recipes
@@ -73,6 +80,7 @@ double chi_squared(int freq[], int n, int j){
 
 //========TESTES DE TEMPO========
 
+//Conta quanto tempo computacional demorou para executar a função rand() com mod 10
 double rand_time(int n){
     srand((unsigned int) time(NULL));
 
@@ -83,6 +91,7 @@ double rand_time(int n){
     return (double) (end-start) / CLOCKS_PER_SEC;
 }
 
+//Conta quanto tempo computacional demorou para executar a função xorshift() com mod 10
 double xorshift_time(int n){
     state = (uint64_t) time(NULL) + 1;
 
@@ -117,6 +126,10 @@ double xorshift_test(int n){
     return chi_squared(freq, n, 10);
 }
 
+//========MAIN========
+
+// A função principal realiza os testes de tempo em loops de 4 execuções e escreve os valores em um arquivo csv
+// Instruções para compilação e execução -> recomendo uso do compilador gcc/g++
 int main(){
 
     int quantities[] = {100000, 1000000, 10000000, 100000000};
@@ -161,3 +174,9 @@ int main(){
 
     fclose(results);
 }
+
+/*
+    Referência interessante: David Johnston em Random Number Generators—Principles and Practices
+    faz uma implementação do xorshift a qual me inspirei um pouco mas como tem Assembly manipulado no meio do
+    código optei por fazer essa versão mais abstrata. Começa na página 129 do livro, página 149 do arquivo
+*/
